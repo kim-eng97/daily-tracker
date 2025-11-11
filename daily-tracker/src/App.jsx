@@ -23,20 +23,61 @@ function App() {
     setClockInTime(null); // reset the clock-in until next session
   };
 
-  return (
-    <div style={{ textAlign: 'center', marginTop: '10%' }}>
-      <h1>Daily Tracker</h1>
-      <div style={{ margin: '20px' }}>
-        <button onClick={handleClockIn} disabled={clockInTime !== null}>
-          Clock In
-        </button>
-        <button onClick={handleClockOut} disabled={clockInTime === null || clockOutTime !== null} style={{ marginLeft: '10px' }}>
-          Clock Out
-        </button>
-      </div>
+    return (
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
+      <h1>🗓️ Daily Tracker</h1>
+
+      <div style={{ marginTop: "30px" }}>
+        {!clockInTime ? (
+          <button
+            onClick={handleClockIn}
+            style={{
+              padding: "10px 20px",
+              fontSize: "18px",
+              background: "#4caf50",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+            }}
+          >
+            Clock In
+          </button>
+        ) : (
+          <button
+            onClick={handleClockOut}
+            style={{
+              padding: "10px 20px",
+              fontSize: "18px",
+              background: "#f44336",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+            }}
+          >
+            Clock Out
+          </button>
+        )}
       </div>
 
-  )
+      <div style={{ marginTop: "40px" }}>
+        <h2>Today's Log</h2>
+        {logs.length === 0 ? (
+          <p>No logs yet.</p>
+        ) : (
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {logs.map((entry, index) => (
+              <li key={index} style={{ marginBottom: "10px" }}>
+                🕒 Clocked in at <b>{entry.clockIn}</b> & Clocked out at <b>{entry.clockOut}</b>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+
 
 
 
