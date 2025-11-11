@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { act, useEffect, useState } from "react";
 
 function App() {
   const [clockInTime, setClockInTime] = useState(null);
   const [clockOutTime, setClockOutTime] = useState(null);
+  const [activivty, setActivity] = useState("");
   const [logs, setLogs] = useState([]);
 
   const getCurrentTime = () => {
@@ -11,12 +12,20 @@ function App() {
   };
 
   const handleClockIn = () => {
+    if (!activity.trim()) {
+      alert("Please enter an activity before clocking in.");
+      return;
+    }
     const time = getCurrentTime();
     setClockInTime(time);
     setClockOutTime(null); // reset the clock-out until next time
   };
 
   const handleClockOut = () => {
+    if (!clockInTime) {
+      alert("You need to clock in first!");
+      return;
+    }
     const time = getCurrentTime();
     setClockOutTime(time);
     setLogs((prevLogs) => [...prevLogs, { clockIn: clockInTime, clockOut: time }]);
@@ -29,36 +38,33 @@ function App() {
 
       <div style={{ marginTop: "30px" }}>
         {!clockInTime ? (
+          <input
+          type="text"
+          placeholder="What are you working on?"
+          value={activivty}
+          onChange={(e) => setActivity(e.target.value)}
+          style={{ padding: "10px", fontSize: "16px", width: "300px" }}
+        />
+        ) : (<p>Current Activity: <b>{activivty}</b></p>
+        )}
+      </div>
+
+      <div style={({ marginTop: "20px"})}>
+        {!clockInTime ? (
           <button
             onClick={handleClockIn}
-            style={{
-              padding: "10px 20px",
-              fontSize: "18px",
-              background: "#4caf50",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
-            }}
+            style={{ padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}
           >
-            Clock In
+            ⏰ Clock In
           </button>
         ) : (
           <button
             onClick={handleClockOut}
-            style={{
-              padding: "10px 20px",
-              fontSize: "18px",
-              background: "#f44336",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
-            }}
+            style={{ padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}
           >
-            Clock Out
+            🕒 Clock Out
           </button>
-        )}
+        )} 
       </div>
 
       <div style={{ marginTop: "40px" }}>
